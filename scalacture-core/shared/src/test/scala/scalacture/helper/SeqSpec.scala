@@ -23,19 +23,6 @@ abstract class SeqSpec[A: Arbitrary, CC[X] <: Seq[X] with SeqLike[X, CC[X]] with
   }
 
   "A Seq" should {
-    "be able to seriazlie" in {
-      forAll { elems: List[A] =>
-        val seq = factory(elems: _*)
-        val outputStream = new ByteArrayOutputStream()
-        new ObjectOutputStream(outputStream).writeObject(seq)
-        val bytes = outputStream.toByteArray
-
-        val inputStream = new ObjectInputStream(new ByteArrayInputStream(bytes))
-        val deserizized = inputStream.readObject().asInstanceOf[CC[A]]
-        assert(deserizized === seq)
-      }
-    }
-
     "apply" when {
       "specifiying correct index" in {
         forAll(elemsAndIndex) {
